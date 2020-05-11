@@ -1,7 +1,6 @@
 from page_object.login_page import LoginPage
 from common import settings
 import pytest
-from time import sleep
 
 
 @pytest.fixture(scope="session", autouse=True)

@@ -1,7 +1,8 @@
 # -*- coding:utf-8 -*-
 from selenium import webdriver
-from common.settings import WEB_URL
+from common.settings import WEB_URL, PROXY_SERVER
 from selenium.webdriver.support.wait import WebDriverWait
+import os
 from selenium.webdriver.support import expected_conditions as EC
 
 
@@ -10,7 +11,12 @@ class BasePage(object):
     # 初始化
     def __init__(self):
         chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument('--proxy-server=http://139.186.2.80:37491')
+        chrome_options.add_argument('--proxy-server={}'.format(PROXY_SERVER))
+        if os.getenv("DOCKER") == "True":
+            chrome_options.add_argument("--headless")
+            chrome_options.add_argument("--disable-gpu")
+            chrome_options.add_argument("--no-sandbox")
+            chrome_options.add_argument("--ignore-certificate-errors")
         self.driver = webdriver.Chrome(options=chrome_options)
         self.driver.implicitly_wait(30)
 
@@ -25,7 +31,8 @@ class BasePage(object):
 
     # 定位方法封装
     def find_element(self, *loc):
-        WebDriverWait(self.driver, 30, 0.5).until(EC.presence_of_element_located(loc))
+        WebDriverWait(self.driver, 30,
+                      0.5).until(EC.presence_of_element_located(loc))
         return self.driver.find_element(*loc)
 
     def quit(self):

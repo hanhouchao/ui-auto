@@ -8,5 +8,5 @@ RUN pip3 install --upgrade pip && pip3 install -r /requirements.txt
 
 WORKDIR /app
 COPY . /app
-#RUN curl -LO https://npm.taobao.org/mirrors/chromedriver/2.44/chromedriver_linux64.zip && unzip chromedriver_linux64.zip && chmod +x chromedriver && mv chromedriver /usr/local/bin/
 
+CMD [ "./docker-run.sh"]
