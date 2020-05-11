@@ -1,11 +1,20 @@
 from page_object.page_base import BasePage
 from selenium.webdriver.common.by import By
+from time import sleep
 
 
 class LoginPage(BasePage):
-    username_loc = (By.ID, "u")
-    password_loc = (By.ID, "p")
-    login_loc = (By.ID, "login_button")
+    admin_loc = (By.CSS_SELECTOR, "div .dex-subtle-text")
+    # org_loc = (By.XPATH, '//input[@name="organization"]')
+    username_loc = (By.NAME, "login")
+    # username_loc = (By.XPATH, '//input[@id="login"]')
+    password_loc = (By.ID, "password")
+    login_loc = (By.XPATH, '//button/descendant-or-self::*[normalize-space(text())="登录"]')
+    login_title_loc = (By.CSS_SELECTOR, ".account-menu__display")
+
+    # 管理员登陆
+    def type_admin(self):
+        self.find_element(*self.admin_loc).click()
 
     # 输入用户名
     def type_username(self, username):
@@ -20,6 +29,9 @@ class LoginPage(BasePage):
     def type_login(self):
         self.find_element(*self.login_loc).click()
 
-
-a =  123
-a.is_instance()
+    def login_success(self, timeout=5):
+        if self.find_element(*self.login_title_loc).is_displayed():
+            return True
+        sleep(5)
+        timeout -= 1
+        self.login_success(timeout=timeout)
