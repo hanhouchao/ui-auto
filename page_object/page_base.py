@@ -69,7 +69,3 @@ class BasePage(object):
 
     def quit(self):
         self.driver.quit()
-
-    def capture_screenshot(self):
-        self.driver.save_screenshot()
-        return self.driver.get_screenshot_as_base64()
