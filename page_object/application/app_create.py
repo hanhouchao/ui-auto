@@ -1,5 +1,4 @@
 from page_object.page_base import BasePage
-from selenium.webdriver.common.by import By
 
 
 class AppCreatePage(BasePage):

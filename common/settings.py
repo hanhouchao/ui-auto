@@ -20,7 +20,6 @@ def get_token(idp_name='local', username=USERNAME, password=PASSWORD):
     auth_url = WEB_URL + '/' + auth_path
     r = requests.get(auth_url, verify=False, proxies=proxy)
     content = r.text
-    print(content)
     req = re.search('req=[a-zA-Z0-9]{25}', content).group(0)[4:]
     url = WEB_URL + "/dex/auth/{}?req=".format(idp_name) + req
     # generate connectorID

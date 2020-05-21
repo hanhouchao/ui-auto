@@ -1,25 +1,17 @@
 # -*- coding:utf-8 -*-
-from selenium import webdriver
-from common.settings import WEB_URL, PROXY_SERVER, TOKEN
+from common.settings import WEB_URL, TOKEN
 from selenium.webdriver.support.wait import WebDriverWait
-import os
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 
 # 创建基础类
 class BasePage(object):
+    driver = None
+
     # 初始化
-    def __init__(self):
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument('--proxy-server={}'.format(PROXY_SERVER))
-        if os.getenv("DOCKER") == "True":
-            chrome_options.add_argument("--headless")
-            chrome_options.add_argument("--disable-gpu")
-            chrome_options.add_argument("--no-sandbox")
-            chrome_options.add_argument("--ignore-certificate-errors")
-        self.driver = webdriver.Chrome(options=chrome_options)
-        self.driver.implicitly_wait(30)
+    def __init__(self, driver):
+        self.driver = driver
 
     # 定义打开登录页面方法
     def _open(self, url, token):
@@ -77,3 +69,7 @@ class BasePage(object):
 
     def quit(self):
         self.driver.quit()
+
+    def capture_screenshot(self):
+        self.driver.save_screenshot()
+        return self.driver.get_screenshot_as_base64()
