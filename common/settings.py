@@ -6,10 +6,11 @@ import base64
 WEB_URL = "https://10.0.129.100"
 USERNAME = "admin@alauda.io"
 PASSWORD = "password"
+PROXY_SERVER = ""
 
 
 def get_token(idp_name='local', username=USERNAME, password=PASSWORD):
-    proxy = {"https": "http://139.186.2.80:37491"}
+    proxy = PROXY_SERVER
     url = WEB_URL + "/console-acp/api/v1/token/login"
     urllib3.disable_warnings()
     headers = {"Referer": "{url}/console-acp".format(url=WEB_URL)}
